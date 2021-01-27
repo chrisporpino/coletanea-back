@@ -1,3 +1,4 @@
+import { Song } from "../model/Song";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class SongDatabase extends BaseDatabase {
@@ -23,20 +24,20 @@ export class SongDatabase extends BaseDatabase {
       .into(SongDatabase.TABLE_NAME);
   }
 
-  public async getSongs(): Promise<any> {
+  public async getSongs(): Promise<Song> {
     const result = await this.getConnection().raw(`
       SELECT id, category, number, title
       FROM coletanea_SONGS
       ORDER BY number ASC;
     `);
-    return result[0];
+    return Song.convertToUserModel(result[0]);
   }
 
-  public async getSongById(id: string): Promise<any> {
+  public async getSongById(id: string): Promise<Song> {
     const result = await this.getConnection()
       .select("*")
       .from(SongDatabase.TABLE_NAME)
       .where({ id });
-    return result[0];
+    return Song.convertToUserModel(result[0]);
   }
 }

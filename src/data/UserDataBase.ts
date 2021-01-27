@@ -1,3 +1,4 @@
+import { User } from "../model/User";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class UserDatabase extends BaseDatabase {
@@ -19,15 +20,23 @@ export class UserDatabase extends BaseDatabase {
       .into(UserDatabase.TABLE_NAME);
   }
 
-  public async getUserByEmail(email: string): Promise<any> {
-    try {
-      const result = await this.getConnection()
-        .select("*")
-        .from(UserDatabase.TABLE_NAME)
-        .where({ email });
-      return result[0];
-    } catch (error) {
-      // throw new Error(error.sqlMessage || error.message);
-    }
+  public async getUserByEmail(email: string): Promise<User> {
+    const result = await this.getConnection()
+      .select('*')
+      .from(UserDatabase.TABLE_NAME)
+      .where({ email });
+    return User.convertToUserModel(result[0]);
   }
+
+  // public async getUserByEmail(email: string): Promise<any> {
+  //   try {
+  //     const result = await this.getConnection()
+  //       .select("*")
+  //       .from(UserDatabase.TABLE_NAME)
+  //       .where({ email });
+  //     return result[0];
+  //   } catch (error) {
+  //     throw new Error(error.sqlMessage || error.message);
+  //   }
+  // }
 }

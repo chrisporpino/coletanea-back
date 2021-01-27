@@ -1,28 +1,23 @@
 import { Request, Response } from "express";
-import { UserBusiness } from "../business/UserBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
+import { UserBusiness } from "../business/UserBusiness";
 
 export const login = async (req: Request, res: Response) => {
-  
   try {
-
-    // loginData = {
-      const email= req.body.email;
-      const password= req.body.password;
-    // };
+    const email = req.body.email;
+    const password = req.body.password;
 
     const userBusiness = new UserBusiness();
-    const token = userBusiness.login( email, password );
-    console.log("teste")
+    const token = await userBusiness.login(email, password);
 
     res.status(200).send({
-      message: "Usuário logado com sucesso",
-      token,
-    });
-
-  } catch (err) {
-    res.status(400).send({ message: err.message });
+      message: 'Usuário logado com sucesso',
+      token
+    })
+  } catch (e) {
+    res.status(400).send({
+      message: e.message
+    })
   }
-
   await BaseDatabase.destroyConnection();
 };

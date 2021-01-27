@@ -1,5 +1,6 @@
 import { SongDatabase } from "../data/SongDataBase";
 import { UserDatabase } from "../data/UserDataBase";
+import { Song } from "../model/Song";
 import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
@@ -33,28 +34,27 @@ export class UserBusiness {
     return token;
   }
 
-  public async login(email: string, password: string): Promise<string> {
+  public async login(email: string, password: string): Promise<string>{
 
-    const userDataBase = new UserDatabase();//dependencia
+    const userDataBase = new UserDatabase();//dependência
     const user = await userDataBase.getUserByEmail(email);
 
-    const hashManager = new HashManager();//dependencia
-    const isPasswordCorrect = await hashManager.compare(password, user.password);
+    const hashManager = new HashManager();//dependência
+    const isPasswordCorrect = await hashManager.compare(password, user.getPassword());
 
     if(!isPasswordCorrect) {
       throw new Error('Usuário ou senha errados');
-    }//regra de negocio
+    }//regra de negócio
 
-    const authenticator = new Authenticator();//dependencia
+    const authenticator = new Authenticator();//dependência
     const token = authenticator.generateToken({
-      id: user.id
+      id: user.getId()
     });
-    // console.log("id do usuário:", user.id)
 
     return token;
   }
 
-  public async getAllSongs(token: string): Promise<any>{
+  public async getAllSongs(token: string): Promise<Song>{
 
     const authenticator = new Authenticator();//dependecia
     // authenticator.verify(token);
