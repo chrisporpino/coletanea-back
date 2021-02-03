@@ -1,4 +1,4 @@
-import { Song, SongOutputDTO } from "../model/Song";
+import { SearchSongDTO, Song, SongOutputDTO } from "../model/Song";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class SongDatabase extends BaseDatabase {
@@ -57,6 +57,26 @@ export class SongDatabase extends BaseDatabase {
       number: result[0].number,
       title: result[0].title,
       content: result[0].content
+    }
+  }
+
+  public async searchSong(searchData: SearchSongDTO): Promise<Song[]> {
+    try {
+      const resultsPerPage: number = 20;
+      const offset: number = resultsPerPage * (searchData.page - 1)
+
+      const result = await this.getConnection().raw(`
+        SELECT id, number, title FROM ${SongDatabase.TABLE_NAME}
+        WHERE title LIKE "%${searchData.title.toUpperCase()}%"
+        ORDER BY ${searchData.orderBy} ${searchData.orderType}
+        LIMIT ${resultsPerPage}
+        OFFSET ${offset};
+    `);
+
+    return result[0];
+
+    } catch (err) {
+      throw new Error(err.sqlMessage);
     }
   }
 }
