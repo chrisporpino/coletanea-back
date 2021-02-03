@@ -15,12 +15,12 @@ export const getSongDetails = async(req: Request, res: Response) => {
     const song = await songDatabase.getSongById(id)
 
     res.status(200).send({
-      songId: song.getId(),
-      songCategory: song.getCategory(),
-      songNumber: song.getNumber(),
-      songTitle: song.getTitle(),
-	    songContent: song.getContent(),
-	    songAccess_count: song.getAccessCount()
+      songId: song.id,
+      songCategory: song.category,
+      songNumber: song.number,
+      songTitle: song.title,
+	    songContent: song.content,
+	    // songAccess_count: song.getAccessCount()
     })
   } catch (err) {
     res.status(400).send({

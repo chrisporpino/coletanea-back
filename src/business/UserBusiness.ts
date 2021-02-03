@@ -1,6 +1,6 @@
 import { SongDatabase } from "../data/SongDataBase";
 import { UserDatabase } from "../data/UserDataBase";
-import { Song } from "../model/Song";
+import { Song, SongOutputDTO } from "../model/Song";
 import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
@@ -54,7 +54,7 @@ export class UserBusiness {
     return token;
   }
 
-  public async getAllSongs(token: string): Promise<Song>{
+  public async getAllSongs(token: string): Promise<any>{
 
     const authenticator = new Authenticator();//dependecia
     // authenticator.verify(token);

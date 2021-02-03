@@ -12,7 +12,6 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/user', userRouter);
-
 app.use('/song', songsRouter);
 
 const server = app.listen(process.env.PORT || 3003, () => {

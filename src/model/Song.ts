@@ -33,3 +33,31 @@ export class Song {
     );
   }
 }
+
+// export interface SongInputDTO {
+//   category: string,
+//   number: string,
+//   title: string,
+//   content: string,
+// }
+
+export interface SongOutputDTO{
+  id: string;
+  category: string,
+  number: string,
+  title: string,
+  content: string
+}
+
+export interface FeedSongsDTO {
+
+}
+
+export interface SearchSongDTO {
+  id: string,
+  number: string,
+  title: string;
+  orderBy: string,
+  orderType: string,
+  page: number,
+}

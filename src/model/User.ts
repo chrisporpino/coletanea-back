@@ -26,3 +26,16 @@ export class User {
     );
   }
 }
+
+export interface SignupInputDTO {
+  name: string,
+  email: string,
+  password: string
+}
+
+export interface UserOutputDTO{
+  id: string,
+  name: string,
+  email: string,
+  password: string
+}
